@@ -67,6 +67,7 @@ Add all MCP server packages to your nixpkgs via the provided overlay:
 
 | Package | Description |
 |---------|-------------|
+| `chrome-devtools-mcp` | Chrome DevTools browser debugging |
 | `context7-mcp` | Context7 documentation lookup |
 | `deepl-mcp-server` | DeepL translation |
 | `esa-mcp-server` | esa.io integration |
@@ -76,3 +77,9 @@ Add all MCP server packages to your nixpkgs via the provided overlay:
 | `playwright-mcp` | Playwright browser automation |
 | `serena` | Serena code intelligence |
 | `tavily-mcp` | Tavily search |
+
+### Community Servers
+
+| Package | Description |
+|---------|-------------|
+| `mcp-gsheets` | Google Sheets read/write |

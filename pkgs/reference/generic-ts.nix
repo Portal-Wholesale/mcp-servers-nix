@@ -17,11 +17,20 @@ buildNpmPackage {
 
   nodejs = nodejs_22;
 
-  npmDepsHash = "sha256-jmz4JdpeHH07vJQFntBwrENbJaIcOuZMb7+qf497VOE=";
+  npmDepsHash = "sha256-psy1XH4DuZu2+tkHpe/bQw3R7uNr8nF5u/AFKoxJeTg=";
 
   npmWorkspace = "src/${workspace}";
 
   env.PUPPETEER_SKIP_DOWNLOAD = true;
+
+  # `npm ci` runs the workspace `prepare` scripts before node_modules/.bin is
+  # populated, so this must run before npmConfigHook, not in preBuild. tsc 7
+  # (tsgo) defaults compilerOptions.types to [], and the monorepo sets no
+  # `types`, so @types/node never loads.
+  postPatch = ''
+    substituteInPlace tsconfig.json \
+      --replace-fail '"compilerOptions": {' '"compilerOptions": { "types": ["node"],'
+  '';
 
   nativeBuildInputs = [
     makeBinaryWrapper

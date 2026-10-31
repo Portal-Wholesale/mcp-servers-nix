@@ -12,21 +12,24 @@ jobs:
       fail-fast: false
       matrix:
         package:
+          - chrome-devtools-mcp
           - context7-mcp
           - esa-mcp-server
           - freee-mcp
+          - mcp-gsheets
           - nd-mcp
+          - notion-mcp-server
           - playwright-mcp
           - serena
     steps:
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: false
@@ -56,6 +59,8 @@ jobs:
             NIX_UPDATE_FLAGS="--subpackage deps"
           elif [[ "${{ matrix.package }}" == "context7-mcp" ]]; then
             NIX_UPDATE_FLAGS='--version-regex @upstash/context7-mcp@(.*)'
+          elif [[ "${{ matrix.package }}" == "chrome-devtools-mcp" ]]; then
+            NIX_UPDATE_FLAGS='--version-regex chrome-devtools-mcp-v(.*)'
           else
             NIX_UPDATE_FLAGS=""
           fi
