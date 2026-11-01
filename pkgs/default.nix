@@ -26,6 +26,7 @@ in
   mcp-server-time = pkgs.callPackage ./reference/time.nix { };
 
   # official servers
+  chrome-devtools-mcp = pkgs.callPackage ./official/chrome-devtools { };
   context7-mcp = pkgs.callPackage ./official/context7 { };
   deepl-mcp-server = pkgs.callPackage ./official/deepl { };
   esa-mcp-server = pkgs.callPackage ./official/esa { };
@@ -41,5 +42,6 @@ in
   slite-mcp-server = warnRemoved "slite-mcp-server has been removed since upstream stopped distribution in favor of the hosted MCP server at https://api.slite.com/mcp";
 
   # community servers
+  mcp-gsheets = pkgs.callPackage ./community/mcp-gsheets { };
   clickup-mcp-server = warnRemoved "clickup-mcp-server has been removed since upstream stopped distribution and switched to shareware";
 }

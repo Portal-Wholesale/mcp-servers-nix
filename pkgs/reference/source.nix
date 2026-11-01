@@ -1,10 +1,10 @@
 { fetchFromGitHub }:
 rec {
-  version = "2026.1.26";
+  version = "2.2.0";
   src = fetchFromGitHub {
     owner = "modelcontextprotocol";
     repo = "servers";
-    tag = version;
-    hash = "sha256-uULXUEHFZpYm/fmF6PkOFCxS+B+0q3dMveLG+3JHrhk=";
+    tag = "v${version}";
+    hash = "sha256-9dXpm2MRye4a3lEt2oYP/SO4tJmZ94HWL5mf/zlC5z4=";
   };
 }
