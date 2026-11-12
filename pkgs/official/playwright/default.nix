@@ -7,16 +7,16 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "playwright-mcp";
-  version = "0.0.77";
+  version = "0.0.84";
 
   src = fetchFromGitHub {
     owner = "microsoft";
     repo = "playwright-mcp";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-HCi7oOW9IVouT6wahmhBjWUsY32gugudx1lOdPANmpM=";
+    hash = "sha256-ijUhAxZls2QQkwNUtO7Ip51h+/I4OBqj5V7WCm8cU84=";
   };
 
-  npmDepsHash = "sha256-Spvl9UNJYPlA/4ys50diPnQhN5MwMpJU+z35eseB+EQ=";
+  npmDepsHash = "sha256-Z0Ab9kB1tow5//Y3FpQ6JxzITyqtP2BksPVp0mIoX1c=";
 
   dontNpmBuild = true;
 

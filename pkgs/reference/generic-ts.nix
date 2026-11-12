@@ -9,19 +9,32 @@
   typescript,
   writeScriptBin,
   makeBinaryWrapper,
-  nodejs_22,
+  nodejs_24,
 }:
 buildNpmPackage {
   pname = "mcp-server-${service}";
   inherit (import ./source.nix { inherit fetchFromGitHub; }) version src;
 
-  nodejs = nodejs_22;
+  nodejs = nodejs_24;
 
-  npmDepsHash = "sha256-jmz4JdpeHH07vJQFntBwrENbJaIcOuZMb7+qf497VOE=";
+  npmDepsHash = "sha256-wnrR1mv9p8xBzArhSrOOM0l87PgBSUl2o6Th1kaAst0=";
 
   npmWorkspace = "src/${workspace}";
 
   env.PUPPETEER_SKIP_DOWNLOAD = true;
+
+  # `npm prune --omit=dev` reruns the workspace `prepare` (tsc) after
+  # @types/node, a devDependency, is gone, so the build fails.
+  npmPruneFlags = [ "--ignore-scripts" ];
+
+  # `npm ci` runs the workspace `prepare` scripts before node_modules/.bin is
+  # populated, so this must run before npmConfigHook, not in preBuild. tsc 7
+  # (tsgo) defaults compilerOptions.types to [], and the monorepo sets no
+  # `types`, so @types/node never loads.
+  postPatch = ''
+    substituteInPlace tsconfig.json \
+      --replace-fail '"compilerOptions": {' '"compilerOptions": { "types": ["node"],'
+  '';
 
   nativeBuildInputs = [
     makeBinaryWrapper
@@ -38,7 +51,7 @@ buildNpmPackage {
   #   instead of a hypothetical root-level dist/index.js
   postInstall = ''
     cp -r src "$out/lib/node_modules/@modelcontextprotocol/servers/src"
-    makeWrapper "${nodejs_22}/bin/node" "$out/bin/mcp-server-${service}" \
+    makeWrapper "${nodejs_24}/bin/node" "$out/bin/mcp-server-${service}" \
       --add-flags "$out/lib/node_modules/@modelcontextprotocol/servers/src/${workspace}/dist/index.js"
   '';
 
